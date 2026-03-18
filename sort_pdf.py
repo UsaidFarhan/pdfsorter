@@ -1,6 +1,25 @@
+import os
+import sys
+
+# Fallback install in case requirements.txt is not picked up
+try:
+    import pdfplumber
+except ImportError:
+    os.system(f"{sys.executable} -m pip install pdfplumber -q")
+    import pdfplumber
+
+try:
+    import pypdf
+except ImportError:
+    os.system(f"{sys.executable} -m pip install pypdf -q")
+
+try:
+    import openpyxl
+except ImportError:
+    os.system(f"{sys.executable} -m pip install openpyxl -q")
+
 import re
 import io
-import os
 import pdfplumber
 import pandas as pd
 import streamlit as st
@@ -81,11 +100,6 @@ if excel_file and pdf_file:
                 output_buffer, total_pages, matched_count, not_in_pdf, skipped_pages = reorder_pdf(
                     pdf_file.read(), ordered_codes
                 )
-
-            col1, col2, col3 = st.columns(3)
-            col1.metric("PDF Pages", total_pages)
-            col2.metric("Matched & Sorted", matched_count)
-            col3.metric("Skipped", len(skipped_pages) + len(not_in_pdf))
 
             if skipped_pages:
                 st.warning(f"⚠️ {len(skipped_pages)} page(s) had no employee code detected — pages: {skipped_pages}")
