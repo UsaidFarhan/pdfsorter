@@ -101,6 +101,10 @@ if excel_file and pdf_file:
                     pdf_file.read(), ordered_codes
                 )
 
+            col1, col2 = st.columns(2)
+            col1.metric("PDF Pages", total_pages)
+            col2.metric("Matched & Sorted", matched_count)
+
             if skipped_pages:
                 st.warning(f"⚠️ {len(skipped_pages)} page(s) had no employee code detected — pages: {skipped_pages}")
             if not_in_pdf:
