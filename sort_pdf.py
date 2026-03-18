@@ -1,13 +1,6 @@
-import subprocess
-import sys
-import os
-
-req_file = os.path.join(os.path.dirname(__file__), "requirements_sort.txt")
-if os.path.exists(req_file):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", req_file, "-q"])
-
 import re
 import io
+import os
 import pdfplumber
 import pandas as pd
 import streamlit as st
@@ -79,7 +72,7 @@ if excel_file and pdf_file:
             result = get_emp_code_order(excel_file.read())
 
         if result is None:
-            st.error(f"Column **'{EXCEL_EMP_COLUMN}'** not found in Excel. Columns available: {result}")
+            st.error(f"Column **'{EXCEL_EMP_COLUMN}'** not found in Excel.")
         else:
             ordered_codes = result
             st.info(f"Found **{len(ordered_codes)}** employee codes in Excel.")
